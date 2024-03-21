@@ -100,13 +100,6 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>2fdf0f92-7894-4d64-934e-2c509ced85d5</groupId>
-			<artifactId>search-experience-api</artifactId>
-			<version>1.0.1</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.9.2</version>
@@ -117,6 +110,13 @@
 			<artifactId>mule-java-module</artifactId>
 			<version>1.2.12</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>2fdf0f92-7894-4d64-934e-2c509ced85d5</groupId>
+			<artifactId>search-experience-api</artifactId>
+			<version>1.0.2</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 

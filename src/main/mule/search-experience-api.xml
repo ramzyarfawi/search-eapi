@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <http:listener-config name="search-experience-api-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
-    <apikit:config name="search-experience-api-config" api="resource::2fdf0f92-7894-4d64-934e-2c509ced85d5:search-experience-api:1.0.1:raml:zip:search-experience-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="search-experience-api-config" api="resource::2fdf0f92-7894-4d64-934e-2c509ced85d5:search-experience-api:1.0.2:raml:zip:search-experience-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="search-experience-api-main">
-        <http:listener config-ref="search-experience-api-httpListenerConfig" path="/api/*">
+        <http:listener path="/api/*" config-ref="HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="search-experience-api-config" />
@@ -97,13 +94,13 @@ output application/json
         </error-handler>
     </flow>
     <flow name="search-experience-api-console">
-        <http:listener config-ref="search-experience-api-httpListenerConfig" path="/console/*">
+        <http:listener path="/console/*" config-ref="HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="search-experience-api-config" />
@@ -124,13 +121,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\health:search-experience-api-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-"Application is up!" as String {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="72d578ec-c8a1-4358-9789-aa4e792eb3ca" name="healthFlow" />
+    </flow>
+    <flow name="post:\search:application\json:search-experience-api-config">
+        <flow-ref doc:name="Flow Reference" doc:id="97e53b5f-2bf8-47ff-8090-330a2b50b722" name="searchBooksFlow"/>
     </flow>
 </mule>

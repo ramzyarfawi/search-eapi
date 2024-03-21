@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<flow name="searchBooksFlow" doc:id="4b56d7fb-eaf6-40ab-a6a2-6a3d2d719296" >
 		<logger level="INFO" doc:name="Logger" doc:id="ceb5376a-207f-4119-8d4c-d9e4de72eb50" />
-		<http:request method="GET" doc:name="Request" doc:id="f6f92251-1414-4d11-8c12-366b83a31fa3" config-ref="HTTP_Request_configuration" path="/${search-papi.request_path}">
+		<http:request method="POST" doc:name="Request" doc:id="f6f92251-1414-4d11-8c12-366b83a31fa3" config-ref="HTTP_Request_configuration-search-papi" path="/${search-papi.request_path}">
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
